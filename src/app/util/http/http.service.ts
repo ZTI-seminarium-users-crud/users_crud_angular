@@ -4,11 +4,13 @@ import { share, catchError } from 'rxjs/operators';
 import { ErrorService } from '../error/error.service';
 
 
-const apiUrl = 'http://localhost:4000/api/';
+const apiBaseUrl = 'http://localhost:4000/api/';
 
 
 export enum ApiEndpoint{
-  SPECIALIZATIONS = 'filters/specialization',
+  FILTERS_SPECIALIZATIONS = 'filters/specializations',
+  FILTERS_DEGREES = 'filters/degrees',
+  FILTERS_SEMESTERS = 'filters/semesters',
 }
 
 export type ApiMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -25,19 +27,20 @@ export class HttpService {
   }
 
   requestCall(apiMethod: ApiMethod, apiEndpoint: ApiEndpoint, data?: any){
+    const url = `${apiBaseUrl}${apiEndpoint}`;
     let response;
       switch(apiMethod){
         case 'GET':
-          response = this.http.get(apiUrl);
+          response = this.http.get(url);
           break;
         case 'POST':
-          response = this.http.post(apiUrl, data);
+          response = this.http.post(url, data);
           break;
         case 'PUT':
-          response = this.http.put(apiUrl, data);
+          response = this.http.put(url, data);
           break;
         case 'DELETE':
-          response = this.http.delete(apiUrl);
+          response = this.http.delete(url);
           break;
       }
       return response?.pipe(share())

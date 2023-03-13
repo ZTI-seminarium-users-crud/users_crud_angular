@@ -9,6 +9,7 @@ import { MaterialModule } from './util/material/material.module';
 import { LayoutModule } from './layout/layout.module';
 import { ComponentsModule } from './components/components.module';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     LayoutModule,
     ComponentsModule,
     FormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
