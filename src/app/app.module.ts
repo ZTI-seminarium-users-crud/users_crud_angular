@@ -7,17 +7,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialModule } from './util/material/material.module';
 import { LayoutModule } from './layout/layout.module';
+import { ComponentsModule } from './components/components.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    LayoutModule
+    LayoutModule,
+    ComponentsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
