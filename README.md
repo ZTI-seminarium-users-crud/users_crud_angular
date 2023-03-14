@@ -1,5 +1,8 @@
-before running, install dependencies in directory containing package.json file: `npm i`
-running project: `npm run start`
+# before running
+install dependencies in directory containing package.json file: `npm i`
+
+# running project
+`npm run start`
 
 
  
