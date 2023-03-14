@@ -1,3 +1,3 @@
-<app-checkbox-filter [title]="'Specialization'" ></app-checkbox-filter>
-<app-checkbox-filter [title]="'Degree'"></app-checkbox-filter>
-<app-checkbox-filter [title]="'Semester'"></app-checkbox-filter>
+<app-checkbox-filter [title]="'Specialization'" [checkboxFilters]="(specializations | async) || []"></app-checkbox-filter>
+<app-checkbox-filter [title]="'Degree'" [checkboxFilters]="(degrees | async) || []"></app-checkbox-filter>
+<app-checkbox-filter [title]="'Semester'" [checkboxFilters]="(semesters | async) || []"></app-checkbox-filter>

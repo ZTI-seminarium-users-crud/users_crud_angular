@@ -5,6 +5,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { CheckboxFilterComponent } from './sidebar/checkbox-filter/checkbox-filter.component';
 import { MaterialModule } from '../util/material/material.module';
 import { FormsModule } from '@angular/forms';
+import { CheckboxHeaderComponent } from './sidebar/checkbox-filter/checkbox-header/checkbox-header.component';
 
 
 
@@ -12,7 +13,8 @@ import { FormsModule } from '@angular/forms';
   declarations: [
     HeaderComponent,
     SidebarComponent,
-    CheckboxFilterComponent
+    CheckboxFilterComponent,
+    CheckboxHeaderComponent
   ],
   imports: [
     CommonModule,

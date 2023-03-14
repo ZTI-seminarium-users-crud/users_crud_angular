@@ -1,0 +1,8 @@
+<mat-card-header>
+    <mat-card-title>{{title}}</mat-card-title>
+    <mat-checkbox class="master-checkbox" 
+        (click)="emitHeaderCheck($event)"    
+        [checked]="shouldHeaderCheckboxBeChecked" 
+        [indeterminate]="shouldHeaderCheckboxBeIndeterminate"
+    ></mat-checkbox>
+</mat-card-header>

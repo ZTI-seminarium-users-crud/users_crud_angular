@@ -3,13 +3,14 @@
 <!-- [labelPosition]="labelPosition" -->
 <!-- [disabled]="disabled" -->
 <mat-card>
-    <mat-card-header>
-        <mat-card-title>{{title}}</mat-card-title>
-        <!-- <mat-card-subtitle>Start</mat-card-subtitle> -->
-    </mat-card-header>
-    <section class="example-section">
+    <app-checkbox-header
+        [title]="title"
+        [shouldHeaderCheckboxBeChecked]="shouldHeaderCheckboxBeChecked()"
+        [shouldHeaderCheckboxBeIndeterminate]="shouldHeaderCheckboxBeIndeterminate()"
+        (headerCheckEventEmitter)="handleHeaderCheckbox($event)"
+    ></app-checkbox-header>
+    <section >
         <mat-checkbox *ngFor="let checkboxFilter of checkboxFilters"
-            class="example-margin"
             [(ngModel)]="checkboxFilter.isChecked"
             >
         {{checkboxFilter.name}}

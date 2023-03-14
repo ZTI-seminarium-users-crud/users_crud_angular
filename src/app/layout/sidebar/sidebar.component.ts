@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { CheckboxFilter } from './checkbox-filter/checkbox-filter.component';
 import { FiltersService } from './filters-service/filters.service';
 
 
@@ -12,9 +13,9 @@ import { FiltersService } from './filters-service/filters.service';
 })
 export class SidebarComponent implements OnInit {
   constructor(private filtersService: FiltersService){}
-  specializations: Observable<string[]> = of([]);
-  degrees: Observable<string[]> = of([]);
-  semesters: Observable<string[]> = of([]);
+  specializations: Observable<CheckboxFilter[]> = of([]);
+  degrees: Observable<CheckboxFilter[]> = of([]);
+  semesters: Observable<CheckboxFilter[]> = of([]);
 
   ngOnInit(){
     this.specializations = this.filtersService.querySpecializations();  
