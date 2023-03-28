@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableComponent } from './table/table.component';
 import { ColumnPickerComponent } from './column-picker/column-picker.component';
+import { MaterialModule } from '../util/material/material.module';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -11,7 +13,9 @@ import { ColumnPickerComponent } from './column-picker/column-picker.component';
     ColumnPickerComponent,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MaterialModule,
+    FormsModule,
   ],
   exports: [
     TableComponent,

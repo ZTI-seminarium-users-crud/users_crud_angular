@@ -5,6 +5,17 @@ import { Component } from '@angular/core';
   templateUrl: './column-picker.component.html',
   styleUrls: ['./column-picker.component.scss']
 })
-export class ColumnPickerComponent {
 
+
+
+export class ColumnPickerComponent {
+  columnNames: string[] = [
+    "first_name",
+    "last_name",
+    "specialization",
+    "degree",
+    "semester",
+  ]
+
+  selectedColumns: string[] = [];
 }

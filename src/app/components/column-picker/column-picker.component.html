@@ -1,1 +1,5 @@
-<p>column-picker works!</p>
+<mat-button-toggle-group [(ngModel)]="selectedColumns" name="fontStyle" aria-label="Font Style" multiple >
+    <mat-button-toggle *ngFor="let columnName of columnNames" [value]="columnName">
+        {{columnName}}
+    </mat-button-toggle>
+</mat-button-toggle-group>
