@@ -1,10 +1,10 @@
 <app-header></app-header>
 <mat-drawer-container class="example-container">
   <mat-drawer mode="side" opened>
-    <app-sidebar></app-sidebar>
+    <app-sidebar (filtersChange)="handleFiltersChange($event)"></app-sidebar>
   </mat-drawer>
   <mat-drawer-content>
-    <app-column-picker></app-column-picker>
-    <app-table></app-table>
+    <app-column-picker (selectedColumnsChange)="handleSelectedColumnsChange($event)"></app-column-picker>
+    <app-table [students]="(students | async) ?? [] "></app-table>
   </mat-drawer-content>
 </mat-drawer-container>

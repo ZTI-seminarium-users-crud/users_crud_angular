@@ -1,11 +1,8 @@
-import { Component, Input } from '@angular/core';
-import { MAT_CHECKBOX_DEFAULT_OPTIONS, MatCheckboxDefaultOptions } from '@angular/material/checkbox';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MAT_CHECKBOX_DEFAULT_OPTIONS, MatCheckboxChange, MatCheckboxDefaultOptions } from '@angular/material/checkbox';
+import { CheckboxFilter } from 'src/app/consts';
 
 
-export type CheckboxFilter = {
-  name: string,
-  isChecked: boolean
-}
 
 @Component({
   selector: 'app-checkbox-filter',
@@ -18,8 +15,7 @@ export class CheckboxFilterComponent {
   // isMasterCheckboxChecked: boolean = false;
   @Input() title: string = 'sample title';
   @Input() checkboxFilters: CheckboxFilter[] = []
-
-
+  @Output() filterChange = new EventEmitter< (string | number)[]>();
 
   handleHeaderCheckbox(event: any){
     this.checkboxFilters = this.checkboxFilters.map( 
@@ -27,13 +23,16 @@ export class CheckboxFilterComponent {
     );
   }
 
+  handleCheckbox(){
+    const checkedCheckboxes = this.checkboxFilters
+      .filter(checkbox => checkbox.isChecked)
+
+    this.filterChange.emit(checkedCheckboxes.map(checkbox => checkbox.name));
+  }
+
   shouldHeaderCheckboxBeIndeterminate = () => !areAllChecked(this.checkboxFilters) && areAnyChecked(this.checkboxFilters);
 
   shouldHeaderCheckboxBeChecked = () =>  areAllChecked(this.checkboxFilters);
-
-  
-
-  // checkboxes: boolean[] = [];
 
 }
 
@@ -53,3 +52,11 @@ function convertCheckboxFilterToHaveCheckedState(checkboxFilter: CheckboxFilter,
     isChecked: newState
   }
 }
+
+// function isCheckboxFiltersNumbers(checkboxFilters: CheckboxFilter[]): checkboxFilters is CheckboxFilterNumber[] {
+//   return typeof checkboxFilters[0].name === 'number';
+// }
+
+// function isCheckboxFiltersStrings(checkboxFilters: CheckboxFilter[]): checkboxFilters is CheckboxFilterString[] {
+//   return !isCheckboxFiltersNumbers(checkboxFilters)
+// }

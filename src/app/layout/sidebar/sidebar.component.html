@@ -1,3 +1,8 @@
-<app-checkbox-filter [title]="'Specialization'" [checkboxFilters]="(specializations | async) || []"></app-checkbox-filter>
-<app-checkbox-filter [title]="'Degree'" [checkboxFilters]="(degrees | async) || []"></app-checkbox-filter>
-<app-checkbox-filter [title]="'Semester'" [checkboxFilters]="(semesters | async) || []"></app-checkbox-filter>
+<app-filters 
+    [specializations]="(specializations | async) ?? []"
+    [degrees]="(degrees | async) ?? []"
+    [semesters]="(semesters | async) ?? []"
+    (filtersChange)="handleFiltersChange($event)"
+></app-filters>
+
+<button mat-raised-button color="primary" (click)="openAddStudentDialog()">Add Student</button>

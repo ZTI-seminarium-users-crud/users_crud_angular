@@ -1,0 +1,73 @@
+<h1 mat-dialog-title>Add Student</h1>
+<div mat-dialog-content>
+    
+    <mat-form-field appearance="fill">
+        <mat-label>First name</mat-label>
+        <input matInput [(ngModel)]="data.student.first_name"  required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>First name</mat-label>
+        <input matInput [(ngModel)]="data.student.last_name"  required>
+    </mat-form-field> 
+
+    <mat-form-field appearance="fill">
+        <mat-label>Favorite animal</mat-label>
+        <mat-select [(ngModel)]="data.student.specialization" required>
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let specialization of data.specializations | async" [value]="specialization">
+            {{specialization}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    <!-- <mat-form-field appearance="fill">
+        <mat-label>First name</mat-label>
+        <input matInput [(ngModel)]="data.first_name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>First name</mat-label>
+        <input matInput [(ngModel)]="data.first_name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>First name</mat-label>
+        <input matInput [(ngModel)]="data.first_name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>First name</mat-label>
+        <input matInput [(ngModel)]="data.first_name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>First name</mat-label>
+        <input matInput [(ngModel)]="data.first_name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>First name</mat-label>
+        <input matInput [(ngModel)]="data.first_name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>First name</mat-label>
+        <input matInput [(ngModel)]="data.first_name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>First name</mat-label>
+        <input matInput [(ngModel)]="data.first_name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>First name</mat-label>
+        <input matInput [(ngModel)]="data.first_name">
+    </mat-form-field> -->
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="data.student" cdkFocusInitial>Ok</button>
+</div>

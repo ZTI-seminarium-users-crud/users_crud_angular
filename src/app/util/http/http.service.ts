@@ -12,9 +12,17 @@ export enum ApiEndpoint{
   FILTERS_SPECIALIZATIONS = 'filters/specializations',
   FILTERS_DEGREES = 'filters/degrees',
   FILTERS_SEMESTERS = 'filters/semesters',
+  STUDENT_LIST = 'student/all'
 }
 
-export type ApiMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+// export type ApiMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+
+export enum ApiMethod {
+  'GET',
+  'POST',
+  'PUT',
+  'DELETE'
+}
 
 
 @Injectable({
@@ -27,20 +35,20 @@ export class HttpService {
 
   }
 
-  requestCall(apiMethod: ApiMethod, apiEndpoint: ApiEndpoint, data?: any){
+  requestCall(apiMethod: ApiMethod, apiEndpoint: ApiEndpoint | string, data?: any){
     const url = `${apiBaseUrl}${apiEndpoint}`;
     let response;
       switch(apiMethod){
-        case 'GET':
+        case ApiMethod.GET:
           response = this.http.get(url);
           break;
-        case 'POST':
+        case ApiMethod.POST:
           response = this.http.post(url, data);
           break;
-        case 'PUT':
+        case ApiMethod.PUT:
           response = this.http.put(url, data);
           break;
-        case 'DELETE':
+        case ApiMethod.DELETE:
           response = this.http.delete(url);
           break;
       }

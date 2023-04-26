@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { COLUMN_NAMES, columnNamesList } from 'src/app/consts';
 
 @Component({
   selector: 'app-column-picker',
@@ -9,13 +11,19 @@ import { Component } from '@angular/core';
 
 
 export class ColumnPickerComponent {
-  columnNames: string[] = [
-    "first_name",
-    "last_name",
-    "specialization",
-    "degree",
-    "semester",
-  ]
 
-  selectedColumns: string[] = [];
+  columnNames: COLUMN_NAMES[] = columnNamesList;
+  selectedColumns: COLUMN_NAMES[] = [...columnNamesList];
+  @Output() selectedColumnsChange = new EventEmitter<COLUMN_NAMES[]>
+
+  constructor(){
+    
+  }
+  
+  
+  emitSelectedColumnsChange(event: MatButtonToggleChange){
+    this.selectedColumnsChange.emit(event.value);
+    // debugger;
+  }
+
 }

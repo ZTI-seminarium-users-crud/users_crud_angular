@@ -10,10 +10,16 @@ import { LayoutModule } from './layout/layout.module';
 import { ComponentsModule } from './components/components.module';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { AddStudentDialogComponent } from './dialogs/add-student-dialog/add-student-dialog.component';
+import { UpdateStudentDialogComponent } from './dialogs/update-student-dialog/update-student-dialog.component';
+import { AreYouSureDialogComponent } from './dialogs/are-you-sure-dialog/are-you-sure-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    AddStudentDialogComponent,
+    UpdateStudentDialogComponent,
+    AreYouSureDialogComponent,
 
   ],
   imports: [
