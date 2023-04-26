@@ -26,10 +26,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   constructor(private http: HttpService, private activatedRoute: ActivatedRoute,
-    private router: Router,) {
+    private router: Router) {
       router.events.forEach((event) => {
         if(event instanceof NavigationEnd) {
-          debugger;
+          // debugger;
           console.log(location.search);
         }
       });

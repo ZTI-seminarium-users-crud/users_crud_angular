@@ -1,14 +1,14 @@
 
 <app-checkbox-filter [title]="'Specialization'" 
     [checkboxFilters]="specializationsCheckboxes" 
-    (filterChange)="handleSpecializationFilterChange($event)"
+    (filterChange)="updateSpecializationsQueryParams($event)"
 ></app-checkbox-filter>
 
 <app-checkbox-filter [title]="'Degree'" 
     [checkboxFilters]="degreesCheckboxes"
-    (filterChange)="handleDegreesFilterChange($event)"
+    (filterChange)="updateDegreesQueryParams($event)"
 ></app-checkbox-filter>
 <app-checkbox-filter [title]="'Semester'" 
     [checkboxFilters]="semestersCheckboxes"
-    (filterChange)="handleSemestersFilterChange($event)"
+    (filterChange)="updateSemestersQueryParams($event)"
 ></app-checkbox-filter>

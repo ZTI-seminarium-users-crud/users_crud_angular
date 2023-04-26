@@ -78,3 +78,11 @@ export type QueryParams = {
     pageSize: number,
     pageNumber: number
 }
+
+export function sleep(millis: number)
+{
+    var date: number = new Date().getTime();
+    var curDate: number = new Date().getTime();
+    do { curDate = new Date().getTime(); }
+    while(curDate-date < millis);
+}

@@ -1,17 +1,20 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { Filters, defaultFilters, CheckboxFilter, QueryParams } from 'src/app/consts';
+import { Filters, defaultFilters, CheckboxFilter, QueryParams, sleep } from 'src/app/consts';
+import { QueryParametersService } from 'src/app/util/query-parameters/query-parameters.service';
+
+import queryString from 'query-string';
 
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.scss']
 })
-export class FiltersComponent implements OnChanges{
-  constructor(private activatedRoute: ActivatedRoute,
-    private router: Router,
+export class FiltersComponent implements OnChanges, OnInit{
+  constructor(private queryParametersService: QueryParametersService
     ){}
+
   
   @Input() specializations: string[] = [];
   @Input() degrees: number[] = [];
@@ -20,87 +23,122 @@ export class FiltersComponent implements OnChanges{
   specializationsCheckboxes: CheckboxFilter[] = [];
   degreesCheckboxes: CheckboxFilter[] = [];
   semestersCheckboxes: CheckboxFilter[] = [];
+  
+ 
+
+  // this will be executed after ngOnChanges
+  ngOnInit(): void {
+    console.log(location.search);
+    const currentQueryString = location.search;
+    const parsedQueryString = queryString.parse(location.search) as any as QueryParams;
+
+    if(parsedQueryString.specializationsStringified === ''){
+      this.updateSpecializationsQueryParams(this.specializations)
+    }else{
+      const selectedSpecializations = unstringifyToStringArray(parsedQueryString.specializationsStringified);
+      this.specializationsCheckboxes = getAllCheckOnlySelected(this.specializationsCheckboxes, selectedSpecializations);
+    }
+
+    if(parsedQueryString.degreesStringified === ''){
+      this.updateDegreesQueryParams(this.degrees)
+    }else{
+      const selectedDegrees = unstringifyToNumbersArray(parsedQueryString.degreesStringified);
+      this.degreesCheckboxes = getAllCheckOnlySelected(this.degreesCheckboxes, selectedDegrees);
+    }
+
+    if(parsedQueryString.semestersStringified === ''){
+      this.updateSemestersQueryParams(this.semesters)
+    }else{
+      const selectedSemesters = unstringifyToNumbersArray(parsedQueryString.semestersStringified);
+      this.semestersCheckboxes = getAllCheckOnlySelected(this.semestersCheckboxes, selectedSemesters);
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('hello from ngOnChanges')
 
-    const newQueryParamsA = this.handleSpecializationsChangesFromParent(changes, this.getQueryParams());
-    const newQueryParamsB = this.handleDegreesChangesFromParent(changes, newQueryParamsA);
-    const newQueryParamsC = this.handleSemestersChangesFromParent(changes, newQueryParamsB);
-
-
-    this.updateQueryString(newQueryParamsC);
+    this.handleSpecializationsChangesFromParent(changes);
+    this.handleDegreesChangesFromParent(changes);
+    this.handleSemestersChangesFromParent(changes);
+    console.log('bye from ngOnChanges')
   }
 
-  private handleSpecializationsChangesFromParent(changes: SimpleChanges, queryParams: QueryParams): QueryParams{
+  private handleSpecializationsChangesFromParent(changes: SimpleChanges){
     const changesUnboxed = changes['specializations'];
-    if(!changesUnboxed) return queryParams;
-
-    this.specializationsCheckboxes = convertArrayToCheckboxFiltersArray(changesUnboxed.currentValue);
-    
-    return {
-      ...queryParams,
-      specializationsStringified: (changesUnboxed.currentValue).join(','),
-    }
+    if(changesUnboxed) this.specializationsCheckboxes = convertArrayToCheckboxFiltersArray(changesUnboxed.currentValue);
   }
 
-  private handleDegreesChangesFromParent(changes: SimpleChanges, queryParams: QueryParams): QueryParams{
+  private handleDegreesChangesFromParent(changes: SimpleChanges){
     const changesUnboxed = changes['degrees'];
-    if(!changesUnboxed) return queryParams;
-    this.degreesCheckboxes = convertArrayToCheckboxFiltersArray(changesUnboxed.currentValue);
-    return {
-      ...queryParams,
-      degreesStringified: (changesUnboxed.currentValue).join(','),
-    }
+    if(changesUnboxed) this.degreesCheckboxes = convertArrayToCheckboxFiltersArray(changesUnboxed.currentValue);
+    
   }
 
-  private handleSemestersChangesFromParent(changes: SimpleChanges, queryParams: QueryParams): QueryParams{
+  private handleSemestersChangesFromParent(changes: SimpleChanges){
     const changesUnboxed = changes['semesters'];
-    if(!changesUnboxed) return queryParams;
+    if(changesUnboxed) this.semestersCheckboxes = convertArrayToCheckboxFiltersArray(changesUnboxed.currentValue);
 
-    this.semestersCheckboxes = convertArrayToCheckboxFiltersArray(changesUnboxed.currentValue);
-
-    return {
-      ...queryParams,
-      semestersStringified: (changesUnboxed.currentValue).join(','),
-    }
+    
   }
 
 
-  handleSpecializationFilterChange(newValues: (string | number)[]){
+  updateSpecializationsQueryParams(newValues: (string | number)[]){
     const newQueryParams: QueryParams = {
       ...this.getQueryParams(),
-      specializationsStringified: (newValues).join(','),
+      specializationsStringified: stringifyArray(newValues)
     }
     this.updateQueryString(newQueryParams);
     
   }
 
-  handleDegreesFilterChange(newValues: (string | number)[]){
+  updateDegreesQueryParams(newValues: (string | number)[]){
     const newQueryParams: QueryParams = {
       ...this.getQueryParams(),
-      degreesStringified: (newValues).join(',')
+      degreesStringified: stringifyArray(newValues)
     }
-    
     this.updateQueryString(newQueryParams);
   }
 
-  handleSemestersFilterChange(newValues: (string | number)[]){
+  updateSemestersQueryParams(newValues: (string | number)[]){
     const newQueryParams: QueryParams = {
       ...this.getQueryParams(),
-      semestersStringified: (newValues).join(',')
+      semestersStringified: stringifyArray(newValues)
     }
     this.updateQueryString(newQueryParams);
   }
 
   private getQueryParams(){
-    return this.activatedRoute.snapshot.queryParams as QueryParams;
+    return this.queryParametersService.getQueryParams();
   }
+
  
   private updateQueryString(newQueryParams: QueryParams){
-    this.router.navigate(['.'], { relativeTo: this.activatedRoute, queryParams: newQueryParams});
+    this.queryParametersService.updateQueryParams(newQueryParams);
+    sleep(1);
+    this.queryParametersService.commitQueryParams();
   }
   
+}
+
+function getAllCheckOnlySelected(currentCheckboxes: CheckboxFilter[], selectedNames: (number | string)[]): CheckboxFilter[]{
+  return currentCheckboxes.map(checkbox => {
+    return {
+      name: checkbox.name,
+      isChecked: selectedNames.includes(checkbox.name)
+    }
+  })
+}
+
+function stringifyArray(array: (string|number)[]){
+  return array.join(',');
+}
+
+function unstringifyToNumbersArray(stringifiedArray: string): number[]{
+  return unstringifyToStringArray(stringifiedArray).map(numberAsString => parseInt(numberAsString));
+}
+
+function unstringifyToStringArray(stringifiedArray: string): string[]{
+  return stringifiedArray.split(',');
 }
 
 function convertArrayToCheckboxFiltersArray(array: (string | number)[]): CheckboxFilter[]{

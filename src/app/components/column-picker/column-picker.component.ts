@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
-import { COLUMN_NAMES, columnNamesList, QueryParams  } from 'src/app/consts';
+import { COLUMN_NAMES, columnNamesList, QueryParams, sleep  } from 'src/app/consts';
+import { QueryParametersService } from 'src/app/util/query-parameters/query-parameters.service';
 
 @Component({
   selector: 'app-column-picker',
@@ -11,22 +12,39 @@ import { COLUMN_NAMES, columnNamesList, QueryParams  } from 'src/app/consts';
 
 
 
-export class ColumnPickerComponent {
+export class ColumnPickerComponent implements OnInit {
 
   columnNames: COLUMN_NAMES[] = columnNamesList;
   selectedColumns: COLUMN_NAMES[] = [...columnNamesList];
 
-  constructor(private activatedRoute: ActivatedRoute,
-    private router: Router,
+  constructor(private queryParametersService: QueryParametersService
   ) { }
 
+
+  ngOnInit(): void {
+    this.emitSelectedColumnsChange();
+    
+  }
+
   emitSelectedColumnsChange() {
+    
+    const oldQueryParams = this.getQueryParams();
     const newQueryParams: QueryParams = {
-      ...this.activatedRoute.snapshot.queryParams as QueryParams,
+      ...oldQueryParams,
       columnsStringified: this.selectedColumns.join(',')
     }
 
-    this.router.navigate(['.'], { relativeTo: this.activatedRoute, queryParams: newQueryParams});
+    this.updateQueryString(newQueryParams);
   }
+
+  private getQueryParams(){
+    return this.queryParametersService.getQueryParams();
+  }
+
+
+  private updateQueryString(newQueryParams: QueryParams){
+    this.queryParametersService.updateQueryParams(newQueryParams);
+    // sleep(100);
+    this.queryParametersService.commitQueryParams();  }
 
 }
