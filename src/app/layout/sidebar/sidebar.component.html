@@ -2,7 +2,6 @@
     [specializations]="(specializations | async) ?? []"
     [degrees]="(degrees | async) ?? []"
     [semesters]="(semesters | async) ?? []"
-    (filtersChange)="handleFiltersChange($event)"
 ></app-filters>
 
 <button mat-raised-button color="primary" (click)="openAddStudentDialog()">Add Student</button>

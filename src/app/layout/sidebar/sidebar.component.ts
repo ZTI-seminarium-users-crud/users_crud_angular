@@ -4,9 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddStudentDialogComponent } from 'src/app/dialogs/add-student-dialog/add-student-dialog.component';
 import { Observable, of } from 'rxjs';
 import { ApiEndpoint, ApiMethod, HttpService } from 'src/app/util/http/http.service';
+import { SidebarService } from './sidebar.service';
 
 
-
+import {combineLatest } from 'rxjs';
 
  
 @Component({
@@ -16,24 +17,20 @@ import { ApiEndpoint, ApiMethod, HttpService } from 'src/app/util/http/http.serv
 })
 export class SidebarComponent implements OnInit{
 
-  specializations: Observable<string[]> = of(sampleFilters.specializations);
-  degrees: Observable<number[]> = of(sampleFilters.degrees);
-  semesters: Observable<number[]> = of(sampleFilters.semesters);
+  specializations: Observable<string[]> = of([]);
+  degrees: Observable<number[]> =  of([]);
+  semesters: Observable<number[]> =  of([]);
 
 
   @Output() filtersChange = new EventEmitter<Filters>();
 
-  constructor(public dialog: MatDialog, private http: HttpService) {}
+  constructor(public dialog: MatDialog, private service: SidebarService) {}
   
   ngOnInit(){
-    // this.specializations = this.querySpecializations();  
-    // this.degrees = this.queryDegrees();
-    // this.semesters = this.querySemesters();
-  }
-
-  handleFiltersChange(newFilters: Filters){
-    console.log('SidebarComponent handleFiltersChange')
-    this.filtersChange.emit(newFilters);
+    // TODO replace when the backend endpoints are ready
+    this.specializations = this.service.querySpecializations();  
+    this.degrees = this.service.queryDegrees();
+    this.semesters = this.service.querySemesters();
   }
 
 
@@ -55,11 +52,7 @@ export class SidebarComponent implements OnInit{
 
 
 
-  querySpecializations = () => (this.http.requestCall(ApiMethod.GET, ApiEndpoint.FILTERS_SPECIALIZATIONS) as Observable<string[]>)
 
-  queryDegrees = () => (this.http.requestCall(ApiMethod.GET, ApiEndpoint.FILTERS_DEGREES) as Observable<number[]>)
-
-  querySemesters = () => (this.http.requestCall(ApiMethod.GET, ApiEndpoint.FILTERS_SEMESTERS) as Observable<number[]>)
 
 }
 

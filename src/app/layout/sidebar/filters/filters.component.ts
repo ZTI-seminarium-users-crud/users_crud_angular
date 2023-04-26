@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { Filters, defaultFilters, CheckboxFilter } from 'src/app/consts';
+import { Filters, defaultFilters, CheckboxFilter, QueryParams } from 'src/app/consts';
 
 @Component({
   selector: 'app-filters',
@@ -8,7 +9,9 @@ import { Filters, defaultFilters, CheckboxFilter } from 'src/app/consts';
   styleUrls: ['./filters.component.scss']
 })
 export class FiltersComponent implements OnChanges{
-  constructor(){}
+  constructor(private activatedRoute: ActivatedRoute,
+    private router: Router,
+    ){}
   
   @Input() specializations: string[] = [];
   @Input() degrees: number[] = [];
@@ -18,73 +21,85 @@ export class FiltersComponent implements OnChanges{
   degreesCheckboxes: CheckboxFilter[] = [];
   semestersCheckboxes: CheckboxFilter[] = [];
 
-  selectedFilters: Filters = defaultFilters;
-
-  // TODO: replace the passing of selected filters from this component to parents, instead put the selected filters in the query string. 
-  // then the AppComponent should watch the query string for changes and update the table. 
-  // This way when user refreshes the page, the filters do not reset (they stay as they were defined).
-  @Output() filtersChange = new EventEmitter<Filters>();
-
   ngOnChanges(changes: SimpleChanges): void {
     console.log('hello from ngOnChanges')
-    const specializationsChanges = changes['specializations'];
-    if (specializationsChanges){
-      this.specializationsCheckboxes = convertArrayToCheckboxFiltersArray(specializationsChanges.currentValue);
+
+    const newQueryParamsA = this.handleSpecializationsChangesFromParent(changes, this.getQueryParams());
+    const newQueryParamsB = this.handleDegreesChangesFromParent(changes, newQueryParamsA);
+    const newQueryParamsC = this.handleSemestersChangesFromParent(changes, newQueryParamsB);
+
+
+    this.updateQueryString(newQueryParamsC);
+  }
+
+  private handleSpecializationsChangesFromParent(changes: SimpleChanges, queryParams: QueryParams): QueryParams{
+    const changesUnboxed = changes['specializations'];
+    if(!changesUnboxed) return queryParams;
+
+    this.specializationsCheckboxes = convertArrayToCheckboxFiltersArray(changesUnboxed.currentValue);
+    
+    return {
+      ...queryParams,
+      specializationsStringified: (changesUnboxed.currentValue).join(','),
     }
-    const degreesChanges = changes['degrees'];
-    if(degreesChanges){
-      this.degreesCheckboxes = convertArrayToCheckboxFiltersArray(degreesChanges.currentValue);
+  }
+
+  private handleDegreesChangesFromParent(changes: SimpleChanges, queryParams: QueryParams): QueryParams{
+    const changesUnboxed = changes['degrees'];
+    if(!changesUnboxed) return queryParams;
+    this.degreesCheckboxes = convertArrayToCheckboxFiltersArray(changesUnboxed.currentValue);
+    return {
+      ...queryParams,
+      degreesStringified: (changesUnboxed.currentValue).join(','),
     }
-    const semestersChanges = changes['semesters'];
-    if(semestersChanges){
-      this.semestersCheckboxes = convertArrayToCheckboxFiltersArray(semestersChanges.currentValue);
+  }
+
+  private handleSemestersChangesFromParent(changes: SimpleChanges, queryParams: QueryParams): QueryParams{
+    const changesUnboxed = changes['semesters'];
+    if(!changesUnboxed) return queryParams;
+
+    this.semestersCheckboxes = convertArrayToCheckboxFiltersArray(changesUnboxed.currentValue);
+
+    return {
+      ...queryParams,
+      semestersStringified: (changesUnboxed.currentValue).join(','),
     }
   }
 
 
   handleSpecializationFilterChange(newValues: (string | number)[]){
-    console.log('hello from handleSpecializationFilterChange')
-    this.selectedFilters = {
-      ...this.selectedFilters,
-      specializations: newValues as string[]
+    const newQueryParams: QueryParams = {
+      ...this.getQueryParams(),
+      specializationsStringified: (newValues).join(','),
     }
-    console.log('handleSpecializationFilterChange')
-
-    // TODO: replace the passing of selected filters from this component to parents, instead put the selected filters in the query string. 
-    // then the AppComponent should watch the query string for changes and update the table. 
-    // This way when user refreshes the page, the filters do not reset (they stay as they were defined).
-    this.filtersChange.emit(this.selectedFilters);
+    this.updateQueryString(newQueryParams);
+    
   }
 
   handleDegreesFilterChange(newValues: (string | number)[]){
-    console.log('hello from handleDegreesFilterChange')
-    this.selectedFilters = {
-      ...this.selectedFilters,
-      degrees: newValues as number[]
+    const newQueryParams: QueryParams = {
+      ...this.getQueryParams(),
+      degreesStringified: (newValues).join(',')
     }
-    console.log('handleDegreesFilterChange')
-
-    // TODO: replace the passing of selected filters from this component to parents, instead put the selected filters in the query string. 
-    // then the AppComponent should watch the query string for changes and update the table. 
-    // This way when user refreshes the page, the filters do not reset (they stay as they were defined).
-    this.filtersChange.emit(this.selectedFilters);
+    
+    this.updateQueryString(newQueryParams);
   }
 
   handleSemestersFilterChange(newValues: (string | number)[]){
-    console.log('hello from handleSemestersFilterChange')
-    this.selectedFilters = {
-      ...this.selectedFilters,
-      semesters: newValues as number[]
+    const newQueryParams: QueryParams = {
+      ...this.getQueryParams(),
+      semestersStringified: (newValues).join(',')
     }
-    console.log('handleSemestersFilterChange')
-
-    // TODO: replace the passing of selected filters from this component to parents, instead put the selected filters in the query string. 
-    // then the AppComponent should watch the query string for changes and update the table. 
-    // This way when user refreshes the page, the filters do not reset (they stay as they were defined).
-    this.filtersChange.emit(this.selectedFilters);
+    this.updateQueryString(newQueryParams);
   }
 
+  private getQueryParams(){
+    return this.activatedRoute.snapshot.queryParams as QueryParams;
+  }
  
+  private updateQueryString(newQueryParams: QueryParams){
+    this.router.navigate(['.'], { relativeTo: this.activatedRoute, queryParams: newQueryParams});
+  }
   
 }
 

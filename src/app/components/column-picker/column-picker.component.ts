@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { COLUMN_NAMES, columnNamesList } from 'src/app/consts';
+import { ActivatedRoute, Router } from '@angular/router';
+import { COLUMN_NAMES, columnNamesList, QueryParams  } from 'src/app/consts';
 
 @Component({
   selector: 'app-column-picker',
@@ -14,16 +15,18 @@ export class ColumnPickerComponent {
 
   columnNames: COLUMN_NAMES[] = columnNamesList;
   selectedColumns: COLUMN_NAMES[] = [...columnNamesList];
-  @Output() selectedColumnsChange = new EventEmitter<COLUMN_NAMES[]>
 
-  constructor(){
-    
-  }
-  
-  
-  emitSelectedColumnsChange(event: MatButtonToggleChange){
-    this.selectedColumnsChange.emit(event.value);
-    // debugger;
+  constructor(private activatedRoute: ActivatedRoute,
+    private router: Router,
+  ) { }
+
+  emitSelectedColumnsChange() {
+    const newQueryParams: QueryParams = {
+      ...this.activatedRoute.snapshot.queryParams as QueryParams,
+      columnsStringified: this.selectedColumns.join(',')
+    }
+
+    this.router.navigate(['.'], { relativeTo: this.activatedRoute, queryParams: newQueryParams});
   }
 
 }

@@ -69,3 +69,12 @@ export const sampleFilters: Filters = {
 export type PageSize = 5 | 10 | 20 | 100;
 
 export const defaultPageSize: PageSize = 10;
+
+export type QueryParams = {
+    columnsStringified: string,
+    specializationsStringified: string,
+    degreesStringified: string,
+    semestersStringified: string,
+    pageSize: number,
+    pageNumber: number
+}

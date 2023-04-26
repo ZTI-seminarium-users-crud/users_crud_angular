@@ -1,4 +1,4 @@
-<mat-button-toggle-group [(ngModel)]="selectedColumns" (change)="emitSelectedColumnsChange($event)" name="fontStyle" aria-label="Font Style" multiple >
+<mat-button-toggle-group [(ngModel)]="selectedColumns" (change)="emitSelectedColumnsChange()" name="fontStyle" aria-label="Font Style" multiple >
     <mat-button-toggle *ngFor="let columnName of columnNames" [value]="columnName">
         {{columnName}}
     </mat-button-toggle>
