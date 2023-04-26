@@ -45,14 +45,15 @@ export class SidebarComponent implements OnInit{
       data: {
           student: placeholderStudentUnsavedToDatabase,
           specializations: this.specializations,
-          degrees: this.degrees
+          degrees: this.degrees,
+          semesters: this.semesters
         },
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-      debugger;
+      if(result === undefined) return;
+      if(result === '') return;
+      this.service.addStudent(result);
     });
   }
 

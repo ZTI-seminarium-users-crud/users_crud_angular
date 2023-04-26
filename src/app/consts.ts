@@ -9,6 +9,7 @@ export enum COLUMN_NAMES {
     "hair_color" = "hair_color",
     "height" = "height",
     "weight" = "weight",
+    "age" = "age"
 }
 
 export const columnNamesList = Object.values(COLUMN_NAMES);

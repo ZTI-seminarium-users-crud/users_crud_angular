@@ -12,7 +12,8 @@ export enum ApiEndpoint{
   FILTERS_SPECIALIZATIONS = 'filters/specializations',
   FILTERS_DEGREES = 'filters/degrees',
   FILTERS_SEMESTERS = 'filters/semesters',
-  STUDENT_LIST = 'student/all'
+  STUDENT_LIST = 'student',
+  STUDENT_ADD = 'student'
 }
 
 // export type ApiMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
