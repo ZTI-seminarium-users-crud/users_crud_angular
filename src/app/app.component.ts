@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { columnNamesList, COLUMN_NAMES, Student, Filters, defaultFilters, sampleFilters, PageSize, defaultPageSize } from './consts';
 import { ApiEndpoint, HttpService } from './util/http/http.service';
 
@@ -6,13 +6,14 @@ import { ApiMethod } from './util/http/http.service';
 
 import queryString from 'query-string';
 import { Observable, Subscription, of } from 'rxjs';
+import { AppService } from './app.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnDestroy{
+export class AppComponent implements OnInit, OnDestroy{
   title = 'users_crud';
 
   selectedColumnNames = columnNamesList;
@@ -23,8 +24,11 @@ export class AppComponent implements OnDestroy{
   students: Observable<Student[]> = of([]);
   // studentsSubscription?: Subscription;
 
-  constructor(private http: HttpService){
+  constructor(private appService: AppService){
 
+  }
+  ngOnInit(): void {
+    this.queryTablePage(); 
   }
   ngOnDestroy(): void {
     // this.studentsSubscription?.unsubscribe();
@@ -44,7 +48,7 @@ export class AppComponent implements OnDestroy{
 
   queryTablePage(){
     // TODO: connect to backend
-    console.log(getNewEndpointFromFiltersAndColumns(this.selectedColumnNames, this.selectedFilters, this.selectedPageSize, this.selectedPageNumber))
+    // console.log(getNewEndpointFromFiltersAndColumns(this.selectedColumnNames, this.selectedFilters, this.selectedPageSize, this.selectedPageNumber))
      
     // this.studentsSubscription = (this.http.requestCall(ApiMethod.GET, getNewEndpointFromFiltersAndColumns(columns, filters)) as Observable<Student[]>).subscribe(result => {
     //   this.students = result;
@@ -52,21 +56,17 @@ export class AppComponent implements OnDestroy{
 
     // or:
     
-    // this.students = this.http.requestCall(ApiMethod.GET, getNewEndpointFromFiltersAndColumns(columns, filters)) as Observable<Student[]>
+    this.students = this.appService.queryStudents(this.selectedColumnNames, this.selectedFilters, this.selectedPageSize, this.selectedPageNumber);
+    
 
   }
 
-  
+  getSelectedColumnsWithId(){
+    return ["id" as keyof COLUMN_NAMES, ...this.selectedColumnNames].sort( (a: any, b: any) => {
+      return columnNamesList.indexOf(a) > columnNamesList.indexOf(b) ? 1 : -1;
+    }) as COLUMN_NAMES[];
+  }
 
 }
 
-function getNewEndpointFromFiltersAndColumns(columns: COLUMN_NAMES[], filters: Filters, pageSize: PageSize, pageNumber: number){
-  const columnsQueryString = queryString.stringify({columns: columns}, {arrayFormat: 'comma'})
-  const specializationsQueryString = queryString.stringify({specializations: filters.specializations}, {arrayFormat: 'comma'})
-  const degreesQueryString = queryString.stringify({degrees: filters.degrees}, {arrayFormat: 'comma'})
-  const semestersQueryString = queryString.stringify({semesters: filters.semesters}, {arrayFormat: 'comma'})
-  const newQueryString = [columnsQueryString, specializationsQueryString, degreesQueryString, semestersQueryString, `pageSize=${pageSize}`, `pageNumber=${pageNumber}`]
-    .filter(part => part !== '').join('&');
-  debugger;
-  return `${ApiEndpoint.STUDENT_LIST}?${newQueryString}`
-}
+

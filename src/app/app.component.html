@@ -5,6 +5,6 @@
   </mat-drawer>
   <mat-drawer-content>
     <app-column-picker (selectedColumnsChange)="handleSelectedColumnsChange($event)"></app-column-picker>
-    <app-table [students]="(students | async) ?? [] "></app-table>
+    <app-table [students]="(students | async) ?? [] " [selectedColumns]="getSelectedColumnsWithId()"></app-table>
   </mat-drawer-content>
 </mat-drawer-container>

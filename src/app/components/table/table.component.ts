@@ -9,6 +9,7 @@ import { Student } from 'src/app/consts';
 export class TableComponent {
 
 
-  @Input() students: Student[] = []
+  @Input() students: Student[] = [];
+  @Input() selectedColumns: string[] = [];
 
 }

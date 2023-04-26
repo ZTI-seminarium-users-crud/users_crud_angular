@@ -20,9 +20,6 @@ export class FiltersComponent implements OnChanges{
 
   selectedFilters: Filters = defaultFilters;
 
-  // TODO: replace the passing of selected filters from this component to parents, instead put the selected filters in the query string. 
-  // then the AppComponent should watch the query string for changes and update the table. 
-  // This way when user refreshes the page, the filters do not reset (they stay as they were defined).
   @Output() filtersChange = new EventEmitter<Filters>();
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -48,11 +45,6 @@ export class FiltersComponent implements OnChanges{
       ...this.selectedFilters,
       specializations: newValues as string[]
     }
-    console.log('handleSpecializationFilterChange')
-
-    // TODO: replace the passing of selected filters from this component to parents, instead put the selected filters in the query string. 
-    // then the AppComponent should watch the query string for changes and update the table. 
-    // This way when user refreshes the page, the filters do not reset (they stay as they were defined).
     this.filtersChange.emit(this.selectedFilters);
   }
 
@@ -62,25 +54,15 @@ export class FiltersComponent implements OnChanges{
       ...this.selectedFilters,
       degrees: newValues as number[]
     }
-    console.log('handleDegreesFilterChange')
-
-    // TODO: replace the passing of selected filters from this component to parents, instead put the selected filters in the query string. 
-    // then the AppComponent should watch the query string for changes and update the table. 
-    // This way when user refreshes the page, the filters do not reset (they stay as they were defined).
     this.filtersChange.emit(this.selectedFilters);
   }
 
   handleSemestersFilterChange(newValues: (string | number)[]){
-    console.log('hello from handleSemestersFilterChange')
+    // console.log('hello from handleSemestersFilterChange')
     this.selectedFilters = {
       ...this.selectedFilters,
       semesters: newValues as number[]
     }
-    console.log('handleSemestersFilterChange')
-
-    // TODO: replace the passing of selected filters from this component to parents, instead put the selected filters in the query string. 
-    // then the AppComponent should watch the query string for changes and update the table. 
-    // This way when user refreshes the page, the filters do not reset (they stay as they were defined).
     this.filtersChange.emit(this.selectedFilters);
   }
 
@@ -89,7 +71,6 @@ export class FiltersComponent implements OnChanges{
 }
 
 function convertArrayToCheckboxFiltersArray(array: (string | number)[]): CheckboxFilter[]{
-  console.log('hello from convertArrayToCheckboxFiltersArray')
   if(array === null) return [];
   if(array.length === 0) return [];
   return array.map(toCheckboxFilter)
