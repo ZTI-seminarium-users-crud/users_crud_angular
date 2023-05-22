@@ -15,12 +15,12 @@ export enum COLUMN_NAMES {
 export const columnNamesList = Object.values(COLUMN_NAMES);
 
 export type StudentUnsavedToDatabase = {
-    first_name: string,
-    last_name: string,
-    specialization: string,
-    degree: number,
-    semester: number,
-    is_male: boolean,
+    first_name?: string,
+    last_name?: string,
+    specialization?: string,
+    degree?: number,
+    semester?: number,
+    is_male?: boolean,
     average_grade?: number,
     hair_color?: string,
     height?: number,
