@@ -13,19 +13,21 @@ export class AppService {
 
 
   queryStudents(columns: COLUMN_NAMES[], filters: Filters, pageSize: PageSize, pageNumber: number){
-    return of(sampleStudents);
-    // return this.http.requestCall(ApiMethod.GET, getNewEndpointFromFiltersAndColumns(columns, filters, pageSize, pageNumber)) as Observable<Student[]>
+    const newEndpoint = getNewEndpointFromFiltersAndColumns(columns, filters, pageSize, pageNumber)
+    console.log(newEndpoint)
+    // return of(sampleStudents);
+    return this.http.requestCall(ApiMethod.GET, newEndpoint) as Observable<Student[]>
   }
 
 }
 
 function getNewEndpointFromFiltersAndColumns(columns: COLUMN_NAMES[], filters: Filters, pageSize: PageSize, pageNumber: number){
   const columnsQueryString = queryString.stringify({columns: columns}, {arrayFormat: 'comma'})
-  const specializationsQueryString = queryString.stringify({specializations: filters.specializations}, {arrayFormat: 'comma'})
-  const degreesQueryString = queryString.stringify({degrees: filters.degrees}, {arrayFormat: 'comma'})
-  const semestersQueryString = queryString.stringify({semesters: filters.semesters}, {arrayFormat: 'comma'})
+  const specializationsQueryString = queryString.stringify({specialization: filters.specializations}, {arrayFormat: 'comma'})
+  const degreesQueryString = queryString.stringify({degree: filters.degrees}, {arrayFormat: 'comma'})
+  const semestersQueryString = queryString.stringify({semester: filters.semesters}, {arrayFormat: 'comma'})
   const newQueryString = [columnsQueryString, specializationsQueryString, degreesQueryString, semestersQueryString, `pageSize=${pageSize}`, `pageNumber=${pageNumber}`]
     .filter(part => part !== '').join('&');
-  debugger;
+  // debugger;
   return `${ApiEndpoint.STUDENT_LIST}?${newQueryString}`
 }

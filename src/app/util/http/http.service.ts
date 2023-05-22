@@ -5,14 +5,16 @@ import { ErrorService } from '../error/error.service';
 
 
 // const apiBaseUrl = 'http://localhost:4000/api/';
-const apiBaseUrl = 'http://localhost:3000/api/';
+// const apiBaseUrl = 'http://localhost:3000/api/';
+const apiBaseUrl = 'https://commonbackend-8nc4932o.onrender.com/';
 
 
 export enum ApiEndpoint{
   FILTERS_SPECIALIZATIONS = 'filters/specializations',
   FILTERS_DEGREES = 'filters/degrees',
   FILTERS_SEMESTERS = 'filters/semesters',
-  STUDENT_LIST = 'student/all'
+  STUDENT_LIST = 'students',
+  STUDENT_ADD = 'student'
 }
 
 // export type ApiMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';

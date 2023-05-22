@@ -15,7 +15,7 @@ export class CheckboxHeaderComponent {
   @Output() headerCheckEventEmitter = new EventEmitter<boolean>();
 
   emitHeaderCheck(event: any){
-    console.log('hello from emitHeaderCheck');
+    // console.log('hello from emitHeaderCheck');
     this.headerCheckEventEmitter.emit();
   }
 
