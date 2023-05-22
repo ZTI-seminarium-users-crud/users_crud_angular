@@ -21,6 +21,7 @@ export class CheckboxFilterComponent {
     this.checkboxFilters = this.checkboxFilters.map( 
       areAllChecked(this.checkboxFilters) ? convertCheckboxFilterToUnchecked : convertCheckboxFilterToChecked
     );
+    this.handleCheckbox();
   }
 
   handleCheckbox(){
