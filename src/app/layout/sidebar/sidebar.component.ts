@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import {Filters, placeholderStudentUnsavedToDatabase, sampleFilters } from 'src/app/consts';
+import {Filters, StudentUnsavedToDatabase, placeholderStudentUnsavedToDatabase, sampleFilters } from 'src/app/consts';
 import { MatDialog } from '@angular/material/dialog';
 import { AddStudentDialogComponent } from 'src/app/dialogs/add-student-dialog/add-student-dialog.component';
-import { Observable, of } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { ApiEndpoint, ApiMethod, HttpService } from 'src/app/util/http/http.service';
 import { SidebarService } from './sidebar.service';
 
@@ -20,7 +20,6 @@ export class SidebarComponent implements OnInit{
   specializations: Observable<string[]> = of([]);
   degrees: Observable<number[]> =  of([]);
   semesters: Observable<number[]> =  of([]);
-
 
   @Output() filtersChange = new EventEmitter<Filters>();
 
@@ -50,10 +49,13 @@ export class SidebarComponent implements OnInit{
         },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe( (result: StudentUnsavedToDatabase) => {
+      // debugger;
       if(result === undefined) return;
-      if(result === '') return;
-      this.service.addStudent(result);
+      // if(result === '') return;
+      this.service.addStudent(result).subscribe(res => {
+        // debugger;
+      })
     });
   }
 

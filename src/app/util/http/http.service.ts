@@ -33,9 +33,7 @@ export enum ApiMethod {
 export class HttpService {
   
 
-  constructor(private http: HttpClient, private _error: ErrorService,) {
-
-  }
+  constructor(private http: HttpClient) {}
 
   requestCall(apiMethod: ApiMethod, apiEndpoint: ApiEndpoint | string, data?: any){
     const url = `${apiBaseUrl}${apiEndpoint}`;
