@@ -54,6 +54,7 @@ export class SidebarComponent implements OnInit{
       if(result === undefined) return;
       // if(result === '') return;
       this.service.addStudent(result).subscribe(res => {
+        console.log(res);
         // debugger;
       })
     });
