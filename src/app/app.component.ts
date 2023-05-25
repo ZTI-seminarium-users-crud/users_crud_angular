@@ -19,7 +19,7 @@ export class AppComponent implements OnInit, OnDestroy{
   selectedColumnNames = columnNamesList;
   selectedFilters: Filters = sampleFilters;
   selectedPageSize: PageSize = defaultPageSize;
-  selectedPageNumber: number = 1;
+  selectedPageNumber: number = 0;
 
   students: Observable<Student[]> = of([]);
   // studentsSubscription?: Subscription;
