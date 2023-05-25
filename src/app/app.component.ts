@@ -60,6 +60,13 @@ export class AppComponent implements OnInit, OnDestroy{
     this.queryTablePage();
   }
 
+  handleTableChange(){
+    this.queryTablePage();
+  }
+  handleStudentAdded(){
+    this.queryTablePage();
+  }
+
   selectPageSize(ps: number){
     if( ps == defaultPageSize )
       this.selectedPageSize = ps;

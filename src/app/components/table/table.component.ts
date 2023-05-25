@@ -1,4 +1,4 @@
-import { Component, Input , OnChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {placeholderStudentUnsavedToDatabase, Student} from 'src/app/consts';
 
 import {UpdateStudentDialogComponent} from "../../dialogs/update-student-dialog/update-student-dialog.component";
@@ -27,6 +27,8 @@ export class TableComponent{
   updateStudentSubscription?: Subscription;
   deleteStudentSubscription?: Subscription;
 
+  @Output() tableEventEmitter = new EventEmitter<void>();
+
   constructor(public dialog: MatDialog, private service: TableService) {
   }
 
@@ -53,6 +55,7 @@ export class TableComponent{
       if(result === '') return;
       this.updateStudentSubscription = this.service.updateStudent(result).subscribe(res => {
         console.log(res);
+        this.tableEventEmitter.emit();
       })
     });
   }
@@ -60,8 +63,8 @@ export class TableComponent{
   onDeleteStudentClicked(selectedStudent: Student){
     this.deleteStudentSubscription = this.service.deleteStudent(selectedStudent).subscribe(res => {
       console.log(res);
+      this.tableEventEmitter.emit();
     })
-    
   }
 
 }

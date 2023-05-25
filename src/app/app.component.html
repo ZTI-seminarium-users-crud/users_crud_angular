@@ -1,11 +1,16 @@
 <app-header></app-header>
 <mat-drawer-container class="example-container">
   <mat-drawer mode="side" opened>
-    <app-sidebar (filtersChange)="handleFiltersChange($event)"></app-sidebar>
+    <app-sidebar
+      (filtersChange)="handleFiltersChange($event)"
+      (studentAdded)="handleStudentAdded()">
+    </app-sidebar>
   </mat-drawer>
   <mat-drawer-content>
     <app-column-picker (selectedColumnsChange)="handleSelectedColumnsChange($event)"></app-column-picker>
-    <app-table [students]="(students | async) ?? [] " [selectedColumns]="getSelectedColumnsWithId()"></app-table>
+    <app-table [students]="(students | async) ?? [] " [selectedColumns]="getSelectedColumnsWithId()"
+    (tableEventEmitter)="handleTableChange()">
+    </app-table>
     <app-page-navigator
       [pageIndex]="selectedPageNumber"
       [pageSize]="selectedPageSize"

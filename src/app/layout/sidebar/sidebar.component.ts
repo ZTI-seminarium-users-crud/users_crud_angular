@@ -22,6 +22,7 @@ export class SidebarComponent implements OnInit{
   semesters: Observable<number[]> =  of([]);
 
   @Output() filtersChange = new EventEmitter<Filters>();
+  @Output() studentAdded = new EventEmitter<void>();
 
   constructor(public dialog: MatDialog, private service: SidebarService) {}
 
@@ -55,7 +56,7 @@ export class SidebarComponent implements OnInit{
       // if(result === '') return;
       this.service.addStudent(result).subscribe(res => {
         console.log(res);
-        // debugger;
+        this.studentAdded.emit();
       })
     });
   }
