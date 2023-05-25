@@ -3,7 +3,7 @@ import {placeholderStudentUnsavedToDatabase, Student} from 'src/app/consts';
 
 import {UpdateStudentDialogComponent} from "../../dialogs/update-student-dialog/update-student-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
-import {Observable, of} from "rxjs";
+import {Observable, Subscription, of} from "rxjs";
 import {TableService} from "./table.service";
 
 // import edit
@@ -22,6 +22,11 @@ export class TableComponent{
   specializations: Observable<string[]> = of([]);
   degrees: Observable<number[]> =  of([]);
   semesters: Observable<number[]> =  of([]);
+
+
+  updateStudentSubscription?: Subscription;
+  deleteStudentSubscription?: Subscription;
+
   constructor(public dialog: MatDialog, private service: TableService) {
   }
 
@@ -46,12 +51,17 @@ export class TableComponent{
     dialogRef.afterClosed().subscribe(result => {
       if(result === undefined) return;
       if(result === '') return;
-      this.service.updateStudent(result);
+      this.updateStudentSubscription = this.service.updateStudent(result).subscribe(res => {
+        console.log(res);
+      })
     });
   }
 
   onDeleteStudentClicked(selectedStudent: Student){
-    this.service.deleteStudent(selectedStudent);
+    this.deleteStudentSubscription = this.service.deleteStudent(selectedStudent).subscribe(res => {
+      console.log(res);
+    })
+    
   }
 
 }

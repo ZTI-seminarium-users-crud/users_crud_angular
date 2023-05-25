@@ -19,12 +19,12 @@ export class TableService {
   updateStudent(selectedStudent: Student){
     console.log('tableService - updateStudent','student:'+selectedStudent.id)
     // TODO: replace when the backend endpoints are ready.
-    this.http.requestCall(ApiMethod.PUT, 'student:'+selectedStudent.id, selectedStudent);
+    return this.http.requestCall(ApiMethod.PUT, 'student:'+selectedStudent.id, selectedStudent);
   }
 
   deleteStudent(selectedStudent: Student){
     console.log('tableService - deleteStudent','student:'+selectedStudent.id)
     // TODO: replace when the backend endpoints are ready.
-    this.http.requestCall(ApiMethod.DELETE, 'student:'+selectedStudent.id);
+    return this.http.requestCall(ApiMethod.DELETE, 'student:'+selectedStudent.id);
   }
 }
