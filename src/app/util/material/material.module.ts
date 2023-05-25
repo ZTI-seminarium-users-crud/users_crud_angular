@@ -14,6 +14,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 
+import {MatIconModule} from "@angular/material/icon";
+
 const materialModules = [
   MatSlideToggleModule,
   MatSidenavModule,
@@ -25,7 +27,8 @@ const materialModules = [
   MatButtonToggleModule,
   MatDialogModule,
   MatButtonModule,
-  MatSelectModule
+  MatSelectModule,
+  MatIconModule
 ]
 
 @NgModule({

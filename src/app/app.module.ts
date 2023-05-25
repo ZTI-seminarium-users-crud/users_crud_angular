@@ -14,6 +14,9 @@ import { AddStudentDialogComponent } from './dialogs/add-student-dialog/add-stud
 import { UpdateStudentDialogComponent } from './dialogs/update-student-dialog/update-student-dialog.component';
 import { AreYouSureDialogComponent } from './dialogs/are-you-sure-dialog/are-you-sure-dialog.component';
 
+
+
+
 @NgModule({
   declarations: [
     AppComponent,

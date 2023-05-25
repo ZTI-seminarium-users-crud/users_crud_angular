@@ -17,7 +17,7 @@ export type AddStudentInputDataBundle = {
   styleUrls: ['./add-student-dialog.component.scss']
 })
 export class AddStudentDialogComponent implements OnInit{
-  
+
   constructor(
     public dialogRef: MatDialogRef<AddStudentDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: AddStudentInputDataBundle,
@@ -27,5 +27,8 @@ export class AddStudentDialogComponent implements OnInit{
   ngOnInit(){
   }
 
+  addStudent(student: StudentUnsavedToDatabase){
+
+  }
 
 }

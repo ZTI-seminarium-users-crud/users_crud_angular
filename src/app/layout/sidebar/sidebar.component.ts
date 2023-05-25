@@ -9,7 +9,7 @@ import { SidebarService } from './sidebar.service';
 
 
 
- 
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -25,10 +25,10 @@ export class SidebarComponent implements OnInit{
   @Output() filtersChange = new EventEmitter<Filters>();
 
   constructor(public dialog: MatDialog, private service: SidebarService) {}
-  
+
   ngOnInit(){
     // TODO replace when the backend endpoints are ready
-    this.specializations = this.service.querySpecializations();  
+    this.specializations = this.service.querySpecializations();
     this.degrees = this.service.queryDegrees();
     this.semesters = this.service.querySemesters();
   }

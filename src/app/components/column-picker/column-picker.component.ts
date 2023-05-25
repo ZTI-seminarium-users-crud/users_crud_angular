@@ -14,13 +14,13 @@ export class ColumnPickerComponent {
 
   columnNames: COLUMN_NAMES[] = columnNamesList;
   selectedColumns: COLUMN_NAMES[] = [...columnNamesList];
-  @Output() selectedColumnsChange = new EventEmitter<COLUMN_NAMES[]>
+  @Output() selectedColumnsChange = new EventEmitter<COLUMN_NAMES[]>;
 
   constructor(){
-    
+
   }
-  
-  
+
+
   emitSelectedColumnsChange(event: MatButtonToggleChange){
     this.selectedColumnsChange.emit(event.value);
     // debugger;

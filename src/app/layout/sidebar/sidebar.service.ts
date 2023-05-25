@@ -25,6 +25,7 @@ export class SidebarService {
     // console.log(`adding new student: ${JSON.stringify(newStudent, null, 2)}`)
     // TODO: replace when the backend endpoints are ready.
     this.http.requestCall(ApiMethod.POST, ApiEndpoint.STUDENT_ADD, newStudent);
+    console.log('addstudent');
   }
 
 }

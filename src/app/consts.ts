@@ -69,6 +69,8 @@ export type PageSize = 5 | 10 | 20 | 100;
 
 export const defaultPageSize: PageSize = 10;
 
+export const defaultPageNumber: number = 0;
+
 
 export const sampleStudents: Student[] = [
     {
